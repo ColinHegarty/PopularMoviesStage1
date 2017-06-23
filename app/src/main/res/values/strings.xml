@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Popular Movies Stage 1</string>
+    <string name="welcome">Welcome to popular movies app, please wait while we retrieve the results!</string>
+    <string name="poster_prefix" >http://image.tmdb.org/t/p/w1000/</string>
+    <string name="connection_string">https://api.themoviedb.org/3/movie/</string>
+    <string name="popular_menu">Popular</string>
+    <string name="top_rated_menu">Top Rated</string>
+    <string name="popular_query">popular</string>
+    <string name="top_rated_query">top_rated</string>
+    <string name="selection">Please Select from the drop down menu</string>
+
+    <!--TODO (1) Add your api key in string api_key-->
+    <string name="api_key" ></string>
+    <string name="json_error">Sorry, something went wrong when receiving movies!</string>
+    <string name="toast_popular">Searching Popular Movies</string>
+    <string name="toast_top">Searching Top Rated Movies</string>
+</resources>
