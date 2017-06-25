@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools">
+
+
 
     <TextView
         android:id="@+id/movie_item_list"
@@ -13,6 +15,7 @@
         android:fontFamily="monospace"
         android:textSize="42sp"
         tools:text="#42"
+        android:visibility="invisible"
         />
 
     <TextView
@@ -24,6 +27,17 @@
         android:fontFamily="monospace"
         android:textColor="#000"
         tools:text="ViewHolder instance:7"
+        android:visibility="invisible"
         />
+
+    <ImageView
+        android:id="@+id/movie_posters"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        />
+
+
 
 </GridLayout>

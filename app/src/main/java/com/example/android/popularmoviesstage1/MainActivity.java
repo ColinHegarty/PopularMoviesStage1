@@ -1,14 +1,17 @@
 package com.example.android.popularmoviesstage1;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.MenuItemHoverListener;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,18 +33,28 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
         defaultTextView = (TextView) findViewById(R.id.defaultTextViw);
         defaultTextView.setText(R.string.welcome);
         moviePosterView = (RecyclerView)  findViewById(R.id.rv_movieposter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         moviePosterView.setLayoutManager(layoutManager);
         moviePosterView.setHasFixedSize(true);
-        movieAdapter = new MovieAdapter(20, this);
-        moviePosterView.setAdapter(movieAdapter);
-//        networkUtilsOperations("popular");
+
+        networkUtilsOperations(getString(R.string.popular_query));
+        Toast.makeText(this, getResources().getString(R.string.toast_popular),
+                Toast.LENGTH_SHORT).show();
+
+        //TODO REQUIREMENT Movies should be displayed in the main layout once the app starts, device orientation changes etc.
     }
 
     public void networkUtilsOperations(String query){
         URL resultUrl = NetworkUtils.buildUrl(getString(R.string.connection_string) + query
                 + "?api_key=" + getString(R.string.api_key));
         new MovieDatabaseQuery().execute(resultUrl);
+    }
+
+    public void createRecyclerView(){
+        movieAdapter = new MovieAdapter(listOfMovies, this);
+        moviePosterView.setAdapter(movieAdapter);
+        defaultTextView.setVisibility(View.INVISIBLE);
+        moviePosterView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -56,24 +69,40 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
             case R.id.popular:
                                 Toast.makeText(this, getResources().getString(R.string.toast_popular),
                                         Toast.LENGTH_SHORT).show();
-                                networkUtilsOperations("popular");
+                                networkUtilsOperations(getString(R.string.popular_query));
                                 break;
+            //TODO REQUIREMENT Move string literals to strings.xml or use constants as appropriate DONE
             case R.id.top_rated:
                                 Toast.makeText(this, getResources().getString(R.string.toast_top),
                                         Toast.LENGTH_SHORT).show();
-                                networkUtilsOperations("top_rated");
+                                networkUtilsOperations(getString(R.string.top_rated_query));
                                 break;
         }
-
+        //TODO REQUIREMENT Follow the Java Coding & Styling guidelines. DONE
         return true;
     }
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-        Toast.makeText(this, "You clicked: "+ clickedItemIndex, Toast.LENGTH_LONG).show();
+        Movie movie = listOfMovies[clickedItemIndex];
+        String toastMessage = movie.getTitle();
+        Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
+
+        Class destination = MovieDetails.class;
+        Intent intentToStartAct = new Intent(this, destination);
+        Bundle extras = new Bundle();
+        extras.putString(getString(R.string.bundle_backdrop), movie.getBackdropPath());
+        extras.putString(getString(R.string.bundle_synopsis),movie.getSynopsis());
+        extras.putString(getString(R.string.bundle_title), movie.getTitle());
+        extras.putString(getString(R.string.bundle_release_date), movie.getReleaseDate());
+        extras.putString(getString(R.string.bundle_rating), movie.getVoteAverage());
+
+        intentToStartAct.putExtras(extras);
+        startActivity(intentToStartAct);
     }
 
     public class MovieDatabaseQuery extends AsyncTask<URL, Void, String>{
+        //TODO SUGGESTION Consider using AsyncTaskLoader
 
         @Override
         protected String doInBackground(URL... params) {
@@ -90,11 +119,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
             }
 
             return JSONResults;
+            //TODO AWESOME You're doing network operations on a background thread.
         }
 
         @Override
         protected void onPostExecute(String JSONResults){
-            defaultTextView.setText(listOfMovies[0].getTitle());
+            //TODO SUGGESTION Consider moving this into doInBackground rather than doing it on your UI thread DONE
+
+            createRecyclerView();
         }
     }
 }

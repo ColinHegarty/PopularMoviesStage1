@@ -38,8 +38,8 @@ public class Movie {
         this.isAdult = movie.getString("adult").equals("false");
         this.video = movie.getString("video").equals("false");
 
-        //TODO SUGGESTION Simplify this if-statement to this.isAdult = movie.getString("adult").equals("false");
-        //TODO SUGGESTION Simplify this if-statement as described above.
+        //TODO SUGGESTION Simplify this if-statement to this.isAdult = movie.getString("adult").equals("false"); DONE
+        //TODO SUGGESTION Simplify this if-statement as described above. DONE
     }
 
     public String getVoteCount() {
