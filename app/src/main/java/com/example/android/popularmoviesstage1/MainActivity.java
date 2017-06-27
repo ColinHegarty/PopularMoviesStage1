@@ -45,8 +45,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
     }
 
     public void networkUtilsOperations(String query){
+        //TODO-2 SUGGESTION Consider checking if you have a data connection before starting this whole process
         URL resultUrl = NetworkUtils.buildUrl(getString(R.string.connection_string) + query
                 + "?api_key=" + getString(R.string.api_key));
+        //TODO-2 REQUIREMENT Move string literals to strings.xml or use constants as appropriate
         new MovieDatabaseQuery().execute(resultUrl);
     }
 
@@ -115,7 +117,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
             }
 
             if(JSONResults != null && !JSONResults.equals("")){
+                //TODO-2 REQUIREMENT Move string literals to strings.xml or use constants as appropriate
                 listOfMovies = JSONUtilities.jsonParser(JSONResults);
+                //TODO-2 AWESOME You're now doing this heavy-lifting in the background thread
             }
 
             return JSONResults;
@@ -127,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
             //TODO SUGGESTION Consider moving this into doInBackground rather than doing it on your UI thread DONE
 
             createRecyclerView();
+            //TODO-2 SUGGESTION Check you have data to display (e.g. no network, server down, parsing error) and display a suitable message to the user
         }
     }
 }

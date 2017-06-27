@@ -10,6 +10,7 @@
 
     <!--TODO (1) Add your api key in string api_key-->
     <string name="api_key"></string>
+    <!-- TODO-2 SUGGESTION Your app crashes when there is no API key, check for this in your code -->
     <string name="json_error">Sorry, something went wrong when receiving movies!</string>
     <string name="toast_popular">Searching Popular Movies</string>
     <string name="toast_top">Searching Top Rated Movies</string>

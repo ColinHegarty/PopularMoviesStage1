@@ -17,6 +17,7 @@ public class JSONUtilities {
         try{
             results = new JSONObject(JSONResults);
             movie = results.getJSONArray("results");
+            //TODO-2 REQUIREMENT Move string literals to strings.xml or use constants as appropriate
             for(int i=0; i<movie.length(); i++){
                 Movie mov = new Movie(movie.getJSONObject(i));
                 listOfMovies[i] = mov;
