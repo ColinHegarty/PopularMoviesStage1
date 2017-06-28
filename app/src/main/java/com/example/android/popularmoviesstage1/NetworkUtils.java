@@ -39,7 +39,7 @@ public class NetworkUtils {
 
             Scanner sc = new Scanner(in);
             sc.useDelimiter("\\A");
-
+            //TODO-2 REQUIREMENT Move string literals to strings.xml or use constants as appropriate
             boolean hasInput = sc.hasNext();
             if(hasInput){
                 return sc.next();

@@ -32,6 +32,26 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         mOnClickListener = listener;
         this.listOfMovies = listOfMovies;
     }
+    //TODO-2 REQUIREMENT Stability and Performance. Your App crashes if started without a network connection. See Stack trace Below for details:
+    /*
+06-27 13:33:00.926 11650-11650/? E/AndroidRuntime: FATAL EXCEPTION: main
+                                                   Process: com.example.android.popularmoviesstage1, PID: 11650
+                                                   java.lang.NullPointerException: Attempt to get length of null array
+                                                       at com.example.android.popularmoviesstage1.MovieAdapter.<init>(MovieAdapter.java:31)
+                                                       at com.example.android.popularmoviesstage1.MainActivity.createRecyclerView(MainActivity.java:55)
+                                                       at com.example.android.popularmoviesstage1.MainActivity$MovieDatabaseQuery.onPostExecute(MainActivity.java:132)
+                                                       at com.example.android.popularmoviesstage1.MainActivity$MovieDatabaseQuery.onPostExecute(MainActivity.java:105)
+                                                       at android.os.AsyncTask.finish(AsyncTask.java:667)
+                                                       at android.os.AsyncTask.-wrap1(AsyncTask.java)
+                                                       at android.os.AsyncTask$InternalHandler.handleMessage(AsyncTask.java:684)
+                                                       at android.os.Handler.dispatchMessage(Handler.java:102)
+                                                       at android.os.Looper.loop(Looper.java:154)
+                                                       at android.app.ActivityThread.main(ActivityThread.java:6119)
+                                                       at java.lang.reflect.Method.invoke(Native Method)
+                                                       at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:886)
+                                                       at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:776)
+
+     */
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
