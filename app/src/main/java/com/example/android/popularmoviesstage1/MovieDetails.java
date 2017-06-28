@@ -34,13 +34,12 @@ public class MovieDetails extends AppCompatActivity {
 
         if (intentThatStarted != null) {
             Bundle movie = intentThatStarted.getExtras();
-            textViewTitle.setText(getString(R.string.movie_title) + movie.getString("TITLE"));
+            textViewTitle.setText(getString(R.string.movie_title) + movie.getString(getString(R.string.bundle_title)));
             textViewTitle.setTypeface(null, Typeface.BOLD_ITALIC);
-            textViewSynopsis.setText(getString(R.string.movie_synopsis)+ movie.getString("SYNOPSIS"));
-            textViewRating.setText(getString(R.string.movie_rating) + movie.getString("VOTE_AVERAGE"));
-            textViewReleaseDate.setText(getString(R.string.movie_release_date)+movie.getString("RELEASE_DATE"));
-
-            Picasso.with(this).load(getString(R.string.poster_prefix)+ movie.getString("BACKDROP_URL")).into(imageView);
+            textViewSynopsis.setText(getString(R.string.movie_synopsis)+ movie.getString(getString(R.string.bundle_synopsis)));
+            textViewRating.setText(getString(R.string.movie_rating) + movie.getString(getString(R.string.bundle_rating)));
+            textViewReleaseDate.setText(getString(R.string.movie_release_date)+movie.getString(getString(R.string.bundle_release_date)));
+            Picasso.with(this).load(getString(R.string.poster_prefix)+ movie.getString(getString(R.string.bundle_backdrop))).into(imageView);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         }
     }

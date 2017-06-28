@@ -1,5 +1,7 @@
 package com.example.android.popularmoviesstage1;
 
+import android.content.Context;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,20 +25,20 @@ public class Movie {
     private String releaseDate;
 
 
-    public Movie(JSONObject movie) throws JSONException {
-        this.voteCount = movie.getString("vote_count");
-        this.id = movie.getString("id");
-        this.voteAverage = movie.getString("vote_average");
-        this.title = movie.getString("title");
-        this.popularity = movie.getString("popularity");
-        this.posterPath = movie.getString("poster_path");
-        this.originalLanguage = movie.getString("original_language");
-        this.originalTitle = movie.getString("original_title");
-        this.backdropPath = movie.getString("backdrop_path");
-        this.synopsis = movie.getString("overview");
-        this.releaseDate = movie.getString("release_date");
-        this.isAdult = movie.getString("adult").equals("false");
-        this.video = movie.getString("video").equals("false");
+    public Movie(JSONObject movie, Context context) throws JSONException {
+        this.voteCount = movie.getString(context.getString(R.string.movie_object_vote_count));
+        this.id = movie.getString(context.getString(R.string.movie_object_id));
+        this.voteAverage = movie.getString(context.getString(R.string.movie_object_vote_average));
+        this.title = movie.getString(context.getString(R.string.movie_object_title));
+        this.popularity = movie.getString(context.getString(R.string.movie_object_popularity));
+        this.posterPath = movie.getString(context.getString(R.string.movie_object_poster_path));
+        this.originalLanguage = movie.getString(context.getString(R.string.movie_object_original_language));
+        this.originalTitle = movie.getString(context.getString(R.string.movie_object_original_title));
+        this.backdropPath = movie.getString(context.getString(R.string.movie_object_backdrop_path));
+        this.synopsis = movie.getString(context.getString(R.string.movie_object_overview));
+        this.releaseDate = movie.getString(context.getString(R.string.movie_object_release_date));
+        this.isAdult = movie.getString(context.getString(R.string.movie_object_adult)).equals(context.getString(R.string.boolean_false));
+        this.video = movie.getString(context.getString(R.string.movie_object_video)).equals(context.getString(R.string.boolean_false));
 
         //TODO SUGGESTION Simplify this if-statement to this.isAdult = movie.getString("adult").equals("false"); DONE
         //TODO SUGGESTION Simplify this if-statement as described above. DONE
