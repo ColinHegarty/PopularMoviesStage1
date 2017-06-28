@@ -22,6 +22,9 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.net.URL;
 
+/*
+    App code has been created using both Udacity course and StackOverflow
+ */
 public class MainActivity extends AppCompatActivity implements MovieAdapter.ListItemClickListener{
     private TextView defaultTextView;
     private Movie[] listOfMovies;
@@ -76,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
         new MovieDatabaseQuery().execute(resultUrl);
     }
 
+    //Method taken from Stackoverflow
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
