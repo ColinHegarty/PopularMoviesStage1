@@ -32,14 +32,14 @@ public class NetworkUtils {
         return resultUrl;
     }
 
-    public static String getResponseFromHttpURL(URL url) throws IOException{
+    public static String getResponseFromHttpURL(URL url, Context context) throws IOException{
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try{
             InputStream in = urlConnection.getInputStream();
 
             Scanner sc = new Scanner(in);
-            sc.useDelimiter("\\A");
-            //TODO-2 REQUIREMENT Move string literals to strings.xml or use constants as appropriate
+            sc.useDelimiter(context.getString(R.string.parser_delimeter));
+            //TODO-2 REQUIREMENT Move string literals to strings.xml or use constants as appropriate DONE
             boolean hasInput = sc.hasNext();
             if(hasInput){
                 return sc.next();
