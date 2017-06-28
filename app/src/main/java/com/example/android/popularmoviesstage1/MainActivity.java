@@ -1,6 +1,9 @@
 package com.example.android.popularmoviesstage1;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +12,7 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.MenuItemHoverListener;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,12 +22,17 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.net.URL;
 
+/*
+    App code has been created using both Udacity course and StackOverflow
+ */
 public class MainActivity extends AppCompatActivity implements MovieAdapter.ListItemClickListener{
     private TextView defaultTextView;
     private Movie[] listOfMovies;
 
     private RecyclerView moviePosterView;
     private MovieAdapter movieAdapter;
+
+    private String errorMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,23 +42,49 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
         defaultTextView = (TextView) findViewById(R.id.defaultTextViw);
         defaultTextView.setText(R.string.welcome);
         moviePosterView = (RecyclerView)  findViewById(R.id.rv_movieposter);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
+        GridLayoutManager layoutManager;
+        if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            layoutManager = new GridLayoutManager(this, 3);
+        }else{
+            layoutManager = new GridLayoutManager(this, 4);
+        }
+
         moviePosterView.setLayoutManager(layoutManager);
         moviePosterView.setHasFixedSize(true);
 
         networkUtilsOperations(getString(R.string.popular_query));
-        Toast.makeText(this, getResources().getString(R.string.toast_popular),
+        Toast.makeText(this, getString(R.string.toast_popular),
                 Toast.LENGTH_SHORT).show();
 
-        //TODO REQUIREMENT Movies should be displayed in the main layout once the app starts, device orientation changes etc.
+        if(!(errorMessage == null)){
+            defaultTextView.setText(errorMessage);
+        }
+
+
+        //TODO REQUIREMENT Movies should be displayed in the main layout once the app starts, device orientation changes etc. DONE
     }
 
     public void networkUtilsOperations(String query){
-        //TODO-2 SUGGESTION Consider checking if you have a data connection before starting this whole process
+        //TODO-2 SUGGESTION Consider checking if you have a data connection before starting this whole process DONE
+        if(!isNetworkAvailable()){
+            errorMessage = getString(R.string.network_error);
+            return;
+        }else if(getString(R.string.api_key).equals(getString(R.string.empty))){
+            errorMessage = getString(R.string.api_key_empty_error);
+            return;
+        }
         URL resultUrl = NetworkUtils.buildUrl(getString(R.string.connection_string) + query
-                + "?api_key=" + getString(R.string.api_key));
-        //TODO-2 REQUIREMENT Move string literals to strings.xml or use constants as appropriate
+                + getString(R.string.api_connector) + getString(R.string.api_key));
+        //TODO-2 REQUIREMENT Move string literals to strings.xml or use constants as appropriate DONE
         new MovieDatabaseQuery().execute(resultUrl);
+    }
+
+    //Method taken from Stackoverflow
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     public void createRecyclerView(){
@@ -111,14 +146,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
             URL searchUrl = params[0];
             String JSONResults = null;
             try{
-                JSONResults = NetworkUtils.getResponseFromHttpURL(searchUrl);
+                JSONResults = NetworkUtils.getResponseFromHttpURL(searchUrl, getApplicationContext());
             }catch(IOException e){
-                e.printStackTrace();
+                errorMessage = getString(R.string.json_error);
             }
 
-            if(JSONResults != null && !JSONResults.equals("")){
-                //TODO-2 REQUIREMENT Move string literals to strings.xml or use constants as appropriate
-                listOfMovies = JSONUtilities.jsonParser(JSONResults);
+            if(JSONResults != null && !JSONResults.equals(getResources().getString(R.string.empty))){
+                //TODO-2 REQUIREMENT Move string literals to strings.xml or use constants as appropriate DONE
+                listOfMovies = JSONUtilities.jsonParser(JSONResults, getApplicationContext());
                 //TODO-2 AWESOME You're now doing this heavy-lifting in the background thread
             }
 
@@ -131,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
             //TODO SUGGESTION Consider moving this into doInBackground rather than doing it on your UI thread DONE
 
             createRecyclerView();
-            //TODO-2 SUGGESTION Check you have data to display (e.g. no network, server down, parsing error) and display a suitable message to the user
+            //TODO-2 SUGGESTION Check you have data to display (e.g. no network, server down, parsing error) and display a suitable message to the user DONE
         }
     }
 }

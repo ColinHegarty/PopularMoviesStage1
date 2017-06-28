@@ -32,7 +32,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         mOnClickListener = listener;
         this.listOfMovies = listOfMovies;
     }
-    //TODO-2 REQUIREMENT Stability and Performance. Your App crashes if started without a network connection. See Stack trace Below for details:
+    //TODO-2 REQUIREMENT Stability and Performance. Your App crashes if started without a network connection. See Stack trace Below for details: DONE (Error displayed in MainActivity)
     /*
 06-27 13:33:00.926 11650-11650/? E/AndroidRuntime: FATAL EXCEPTION: main
                                                    Process: com.example.android.popularmoviesstage1, PID: 11650
