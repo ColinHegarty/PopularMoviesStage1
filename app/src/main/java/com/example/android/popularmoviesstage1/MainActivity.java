@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+    //TODO-3 AWESOME These small touches can make a big difference in UX and UR (User Rating)
 
     public void createRecyclerView(){
         movieAdapter = new MovieAdapter(listOfMovies, this);
