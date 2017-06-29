@@ -1,22 +1,53 @@
 <resources>
+    <!-- General Strings -->
     <string name="app_name">Popular Movies</string>
     <string name="welcome">Welcome to popular movies app, please wait while we retrieve the results!</string>
-    <string name="poster_prefix">http://image.tmdb.org/t/p/w1000/</string>
-    <string name="connection_string">https://api.themoviedb.org/3/movie/</string>
+    <string name="empty"></string>
+    <string name="boolean_false">false</string>
+
+    <!-- Menu Item strings -->
     <string name="popular_menu">Popular</string>
     <string name="top_rated_menu">Top Rated</string>
-    <string name="popular_query">popular</string>
-    <string name="top_rated_query">top_rated</string>
 
-    <!--TODO (1) Add your api key in string api_key-->
-    <string name="api_key"></string>
-    <string name="json_error">Sorry, something went wrong when receiving movies!</string>
+    <!-- Toast Strings -->
     <string name="toast_popular">Searching Popular Movies</string>
     <string name="toast_top">Searching Top Rated Movies</string>
+
+    <!-- Move class information -->
+    <string name="movie_object_title">title</string>
+    <string name="movie_object_vote_count">vote_count</string>
+    <string name="movie_object_id">id</string>
+    <string name="movie_object_vote_average">vote_average</string>
+    <string name="movie_object_popularity">popularity</string>
+    <string name="movie_object_poster_path">poster_path</string>
+    <string name="movie_object_original_language">original_language</string>
+    <string name="movie_object_original_title">original_title</string>
+    <string name="movie_object_backdrop_path">backdrop_path</string>
+    <string name="movie_object_overview">overview</string>
+    <string name="movie_object_release_date">release_date</string>
+    <string name="movie_object_adult">adult</string>
+    <string name="movie_object_video">video</string>
+
+
+    <!-- Movie Details Activity Strings -->
     <string name="movie_title">Title: </string>
     <string name="movie_rating">Rating: </string>
     <string name="movie_release_date">Release Date: </string>
     <string name="movie_synopsis">Synopsis: \n</string>
+
+    <!-- Network Utils Strings -->
+    <string name="parser_delimeter">\\A</string>
+
+    <!-- Connection Strings for JSON -->
+    <string name="connection_string">https://api.themoviedb.org/3/movie/</string>
+    <string name="api_connector">\?api_key=</string>
+    <!-- TODO (1) Add your api key in string api_key -->
+    <string name="api_key"></string>
+    <!-- TODO-2 SUGGESTION Your app crashes when there is no API key, check for this in your code DONE -->
+    <string name="popular_query">popular</string>
+    <string name="top_rated_query">top_rated</string>
+    <string name="poster_prefix">http://image.tmdb.org/t/p/w1000/</string>
+    <string name="json_results">results</string>
 
     <!-- Strings for entry to bundle -->
     <string name="bundle_backdrop">BACKDROP_URL</string>
@@ -24,4 +55,10 @@
     <string name="bundle_synopsis">SYNOPSIS</string>
     <string name="bundle_release_date">RELEASE_DATE</string>
     <string name="bundle_rating">VOTE_AVERAGE</string>
+
+    <!-- Strings for Errors -->
+    <string name="json_error">Sorry, something went wrong when receiving movies!</string>
+    <string name="network_error">Sorry, there doesn\'t seem to be a network connection!</string>
+    <string name="api_key_empty_error">Sorry, no API key has been submitted!\nPlease enter
+                                        your API key before running the app.</string>
 </resources>
