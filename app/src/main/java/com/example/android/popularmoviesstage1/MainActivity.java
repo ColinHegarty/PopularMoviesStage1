@@ -5,6 +5,9 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,6 +15,7 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.MenuItemHoverListener;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,10 +26,12 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.net.URL;
 
+import static android.R.attr.data;
+
 /*
     App code has been created using both Udacity course and StackOverflow
  */
-public class MainActivity extends AppCompatActivity implements MovieAdapter.ListItemClickListener{
+public class MainActivity extends AppCompatActivity implements MovieAdapter.ListItemClickListener, LoaderManager.LoaderCallbacks<Movie[]>{
     private TextView defaultTextView;
     private Movie[] listOfMovies;
 
@@ -73,10 +79,23 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
             errorMessage = getString(R.string.api_key_empty_error);
             return;
         }
-        URL resultUrl = NetworkUtils.buildUrl(getString(R.string.connection_string) + query
-                + getString(R.string.api_connector) + getString(R.string.api_key));
+
         //TODO-2 REQUIREMENT Move string literals to strings.xml or use constants as appropriate DONE
-        new MovieDatabaseQuery().execute(resultUrl);
+//        URL resultUrl = NetworkUtils.buildUrl(getString(R.string.connection_string) + query
+//                + getString(R.string.api_connector) + getString(R.string.api_key));
+//        new MovieDatabaseQuery().execute(resultUrl);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(getString(R.string.search), query);
+
+        LoaderManager lm = getSupportLoaderManager();
+        android.support.v4.content.Loader movieLoader = lm.getLoader(22);
+
+        if (movieLoader == null) {
+            lm.initLoader(22, bundle, this);
+        } else {
+            lm.restartLoader(22, bundle, this);
+        }
     }
 
     //Method taken from Stackoverflow
@@ -134,12 +153,116 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
         extras.putString(getString(R.string.bundle_title), movie.getTitle());
         extras.putString(getString(R.string.bundle_release_date), movie.getReleaseDate());
         extras.putString(getString(R.string.bundle_rating), movie.getVoteAverage());
+        extras.putString(getString(R.string.bundle_id), movie.getId());
 
         intentToStartAct.putExtras(extras);
         startActivity(intentToStartAct);
     }
 
-    public class MovieDatabaseQuery extends AsyncTask<URL, Void, String>{
+    @Override
+    public Loader<Movie[]> onCreateLoader(int id, final Bundle args) {
+        return new AsyncTaskLoader<Movie[]>(this) {
+
+
+            @Override
+            protected void onStartLoading() {
+
+                if (args == null) {
+                    return;
+                }
+
+                forceLoad();
+            }
+
+
+            @Override
+            public Movie[] loadInBackground() {
+                String url =  getString(R.string.connection_string)+ args.getString(getString(R.string.search))
+                        + getString(R.string.api_connector) + getString(R.string.api_key);
+                URL searchUrl = NetworkUtils.buildUrl(url);
+                String JSONResults = null;
+                try {
+                    JSONResults = NetworkUtils.getResponseFromHttpURL(searchUrl, getApplicationContext());
+                } catch (IOException e) {
+                    errorMessage = getString(R.string.json_error);
+                }
+
+                if (JSONResults != null && !JSONResults.equals(getResources().getString(R.string.empty))) {
+                    //TODO-2 REQUIREMENT Move string literals to strings.xml or use constants as appropriate DONE
+                    listOfMovies = JSONUtilities.jsonParser(JSONResults, getApplicationContext());
+                    //TODO-2 AWESOME You're now doing this heavy-lifting in the background thread
+                }
+                return listOfMovies;
+            }
+        };
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Movie[]> loader, Movie[] movies) {
+        createRecyclerView();
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Movie[]> loader) {
+        //Do nothing
+    }
+
+  /*  @Override
+    public Loader<String> onCreateLoader(int id, final Bundle args) {
+        return new AsyncTaskLoader<String>(this) {
+
+            // COMPLETED (5) Override onStartLoading
+            @Override
+            protected void onStartLoading() {
+
+                // COMPLETED (6) If args is null, return.
+                *//* If no arguments were passed, we don't have a query to perform. Simply return. *//*
+                if (args == null) {
+                    return;
+                }
+
+
+                // COMPLETED (8) Force a load
+                forceLoad();
+            }
+
+            // COMPLETED (9) Override loadInBackground
+            @Override
+            public String loadInBackground() {
+
+                URL searchUrl = NetworkUtils.buildUrl(args.getString(getString(R.string.search)));
+                String JSONResults = null;
+                try{
+                    JSONResults = NetworkUtils.getResponseFromHttpURL(searchUrl, getApplicationContext());
+                }catch(IOException e){
+                    errorMessage = getString(R.string.json_error);
+                }
+
+                if(JSONResults != null && !JSONResults.equals(getResources().getString(R.string.empty))){
+                    //TODO-2 REQUIREMENT Move string literals to strings.xml or use constants as appropriate DONE
+                    listOfMovies = JSONUtilities.jsonParser(JSONResults, getApplicationContext());
+                    //TODO-2 AWESOME You're now doing this heavy-lifting in the background thread
+                }
+
+                return JSONResults;
+            }
+        };
+    }
+
+    @Override
+    public void onLoadFinished(Loader<String> loader, String data) {
+
+        createRecyclerView();
+    }
+
+    @Override
+    public void onLoaderReset(Loader<String> loader) {
+        //Do nothing
+    }
+*/
+
+
+  /*  public class MovieDatabaseQuery extends AsyncTask<URL, Void, String>{
         //TODO SUGGESTION Consider using AsyncTaskLoader
 
         @Override
@@ -169,5 +292,5 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
             createRecyclerView();
             //TODO-2 SUGGESTION Check you have data to display (e.g. no network, server down, parsing error) and display a suitable message to the user DONE
         }
-    }
+    }*/
 }

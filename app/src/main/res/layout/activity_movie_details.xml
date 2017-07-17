@@ -58,6 +58,14 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/title"
                 />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#000000"
+                android:layout_below="@+id/synopsis"
+                />
         </RelativeLayout>
     </ScrollView>
 

@@ -4,6 +4,7 @@
     <string name="welcome">Welcome to popular movies app, please wait while we retrieve the results!</string>
     <string name="empty"></string>
     <string name="boolean_false">false</string>
+    <string name="search">query</string>
 
     <!-- Menu Item strings -->
     <string name="popular_menu">Popular</string>
@@ -34,6 +35,7 @@
     <string name="movie_rating">Rating: </string>
     <string name="movie_release_date">Release Date: </string>
     <string name="movie_synopsis">Synopsis: \n</string>
+    <string name="movie_review">review</string>
 
     <!-- Network Utils Strings -->
     <string name="parser_delimeter">\\A</string>
@@ -48,6 +50,8 @@
     <string name="top_rated_query">top_rated</string>
     <string name="poster_prefix">http://image.tmdb.org/t/p/w1000/</string>
     <string name="json_results">results</string>
+    <string name="json_author">author</string>
+    <string name="json_review">content</string>
 
     <!-- Strings for entry to bundle -->
     <string name="bundle_backdrop">BACKDROP_URL</string>
@@ -55,6 +59,7 @@
     <string name="bundle_synopsis">SYNOPSIS</string>
     <string name="bundle_release_date">RELEASE_DATE</string>
     <string name="bundle_rating">VOTE_AVERAGE</string>
+    <string name="bundle_id">ID</string>
 
     <!-- Strings for Errors -->
     <string name="json_error">Sorry, something went wrong when receiving movies!</string>
