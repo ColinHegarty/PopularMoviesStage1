@@ -1,10 +1,13 @@
 package com.example.android.popularmoviesstage1;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by colin.hegarty on 23/06/2017.
@@ -30,18 +33,21 @@ public class JSONUtilities {
         return listOfMovies;
     }
 
-    public static String[] jsonParserReviews(String JSONResults, Context context, String query, String result){
+    public static ArrayList<String> jsonParserReviews(String JSONResults, Context context, String query, String result){
         JSONObject results = null;
         JSONArray reviews = null;
-        String[] listOfReviews = new String[20];
+        Log.e("JSON Results:", JSONResults);
+        ArrayList<String> listOfReviews = new ArrayList<String>();
         try{
             results = new JSONObject(JSONResults);
             reviews = results.getJSONArray(context.getString(R.string.json_results));
             //TODO-2 REQUIREMENT Move string literals to strings.xml or use constants as appropriate DONE
-            for(int i=0; i<listOfReviews.length; i++){
+            for(int i=0; i<reviews.length(); i++){
+                Log.e("Inside For loop", ""+query + result);
                 String review = reviews.getJSONObject(i).getString(query) + "\n" +
                         reviews.getJSONObject(i).getString(result);
-                listOfReviews[i] = review;
+                listOfReviews.add(review);
+                Log.e("listOfReviews Size:", ""+ listOfReviews.size());
             }
         }catch(JSONException e) {
             e.printStackTrace();

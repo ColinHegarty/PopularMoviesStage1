@@ -34,8 +34,10 @@
     <string name="movie_title">Title: </string>
     <string name="movie_rating">Rating: </string>
     <string name="movie_release_date">Release Date: </string>
-    <string name="movie_synopsis">Synopsis: \n</string>
-    <string name="movie_review">review</string>
+    <string name="movie_synopsis">Synopsis:\n</string>
+    <string name="movie_reviews">Reviews:</string>
+    <string name="movie_trailers">Trailers:</string>
+
 
     <!-- Network Utils Strings -->
     <string name="parser_delimeter">\\A</string>
@@ -52,6 +54,8 @@
     <string name="json_results">results</string>
     <string name="json_author">author</string>
     <string name="json_review">content</string>
+    <string name="json_reviews">reviews</string>
+    <string name="json_trailers">trailers</string>
 
     <!-- Strings for entry to bundle -->
     <string name="bundle_backdrop">BACKDROP_URL</string>

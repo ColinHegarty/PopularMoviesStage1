@@ -2,6 +2,7 @@ package com.example.android.popularmoviesstage1;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 /**
  * Created by colin.hegarty on 17/07/2017.
@@ -19,12 +22,14 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
 
     private Context context;
 
-    private String[] listOfReviews;
+    private ArrayList<String> listOfReviews;
 
     private int mNumberItems;
 
-    public ReviewAdapter(String[] listOfReviews){
-        mNumberItems = listOfReviews.length;
+
+
+    public ReviewAdapter(ArrayList<String> listOfReviews){
+        mNumberItems = listOfReviews.size();
         this.listOfReviews = listOfReviews;
     }
 
@@ -63,7 +68,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         }
 
         void bind(int listIndex){
-            reviewHolder.setText(listOfReviews[listIndex]);
+            reviewHolder.setText(listOfReviews.get(listIndex));
         }
 
     }

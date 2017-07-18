@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="com.example.android.popularmoviesstage1.MovieDetails">
 
     <ScrollView android:layout_width="match_parent"
@@ -35,22 +35,25 @@
                 android:textSize="22sp"
                 android:textColor="@color/colorPrimaryDark"
                 />
+                <!--android:layout_toRightOf="@+id/title_title"-->
+
             <!-- TODO SUGGESTION Use sp for text sizes rather than dp DONE -->
 
             <TextView
                 android:id="@+id/release_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/average_rating"
+                android:layout_below="@+id/average_rating"/>
+                <!--android:layout_toRightOf="@+id/title_release_date"-->
 
-                />
 
             <TextView
                 android:id="@+id/synopsis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/release_date"
-                />
+                android:layout_below="@id/release_date"/>
+                <!--android:layout_below="@+id/title_synopsis"-->
+
 
             <TextView
                 android:id="@+id/average_rating"
@@ -58,14 +61,172 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/title"
                 />
+                <!--android:layout_toRightOf="@+id/title_rating"-->
+
+
+            <TextView
+                android:id="@+id/title_review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/synopsis"
+                android:textSize="22sp"
+                android:background="#9c9d9e"
+                />
+
+
+            <!-- <TextView
+                 android:id="@+id/title_title"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@+id/imageView"
+                 android:textSize="22sp"
+                 android:background="#9c9d9e"
+                 />
+
+             <TextView
+                 android:id="@+id/title_rating"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@+id/title_title"
+                 android:textSize="22sp"
+                 android:background="#9c9d9e"
+                 />
+
+             <TextView
+                 android:id="@+id/title_release_date"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@+id/synopsis"
+                 android:textSize="22sp"
+                 android:background="#9c9d9e"
+                 />
+
+             <TextView
+                 android:id="@+id/title_synopsis"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@+id/synopsis"
+                 android:textSize="22sp"
+                 android:background="#9c9d9e"
+                 />-->
+
+            <TextView
+                android:id="@+id/title_trailers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rv_review"
+                android:textSize="22sp"
+                android:background="#9c9d9e"
+                />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_review"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#000000"
-                android:layout_below="@+id/synopsis"
+                android:layout_below="@+id/title_review"
                 />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_trailer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_trailers"
+                />
+
+ <!--           <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imageView"
+                android:layout_toRightOf="@+id/title_title"
+                android:gravity="center"
+                android:textSize="22sp"
+                android:textColor="@color/colorPrimaryDark"
+                />
+            &lt;!&ndash; TODO SUGGESTION Use sp for text sizes rather than dp DONE &ndash;&gt;
+
+            <TextView
+                android:id="@+id/release_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/average_rating"
+                android:layout_toRightOf="@+id/title_release_date"
+                />
+
+            <TextView
+                android:id="@+id/synopsis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_synopsis"
+                />
+
+            <TextView
+                android:id="@+id/average_rating"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title"
+                android:layout_toRightOf="@+id/title_rating"
+                android:textSize="22sp"
+
+                />
+
+            <TextView
+                android:id="@+id/title_review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_trailers"
+                android:textSize="22sp"
+                android:background="#9c9d9e"
+                android:textColor="@color/colorPrimaryDark"
+                />
+
+
+            <TextView
+                android:id="@+id/title_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imageView"
+                android:textSize="22sp"
+                android:textColor="@color/colorPrimaryDark"
+                />
+
+            <TextView
+                android:id="@+id/title_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_title"
+                android:textSize="22sp"
+                android:textColor="@color/colorPrimaryDark"
+                />
+
+            <TextView
+                android:id="@+id/title_release_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_rating"
+                android:textSize="22sp"
+                android:textColor="@color/colorPrimaryDark"
+                />
+
+            <TextView
+                android:id="@+id/title_synopsis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_release_date"
+                android:textSize="22sp"
+                android:textColor="@color/colorPrimaryDark"
+                />
+
+            <TextView
+                android:id="@+id/title_trailers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/synopsis"
+                android:textSize="22sp"
+                android:background="#9c9d9e"
+                android:textColor="@color/colorPrimaryDark"
+                />-->
+
         </RelativeLayout>
     </ScrollView>
 
