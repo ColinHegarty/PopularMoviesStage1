@@ -22,12 +22,12 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
 
     private int mNumberItems;
 
+    private final TrailerAdapterOnClickListener onClickHandler;
 
-
-    public TrailerAdapter(ArrayList<String> listOfTrailers){
+    public TrailerAdapter(TrailerAdapterOnClickListener onClickHandler, ArrayList<String> listOfTrailers){
         this.listOfTrailers = listOfTrailers;
         this.mNumberItems = listOfTrailers.size();
-
+        this.onClickHandler = onClickHandler;
     }
 
     @Override
@@ -54,7 +54,9 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
         return mNumberItems;
     }
 
-    class TrailerViewHolder extends RecyclerView.ViewHolder{
+
+
+    class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView trailerHolder;
 
@@ -62,11 +64,20 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
         public TrailerViewHolder(View itemView){
             super(itemView);
             trailerHolder = (TextView) itemView.findViewById(R.id.tv_view_holder_instance);
+            itemView.setOnClickListener(this);
         }
 
         void bind(int listIndex){
             trailerHolder.setText(context.getString(R.string.movie_trailer) + context.getString(R.string.space) +(listIndex+1));
         }
 
+        @Override
+        public void onClick(View v) {
+            onClickHandler.onClick(getAdapterPosition());
+        }
+    }
+
+    public interface TrailerAdapterOnClickListener{
+        void onClick(int position);
     }
 }

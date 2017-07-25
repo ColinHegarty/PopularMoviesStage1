@@ -2,6 +2,7 @@ package com.example.android.popularmoviesstage1;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -19,7 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MovieDetails extends AppCompatActivity implements LoaderManager.LoaderCallbacks{
+public class MovieDetails extends AppCompatActivity implements TrailerAdapter.TrailerAdapterOnClickListener, LoaderManager.LoaderCallbacks{
 
     private static final String TAG = MovieDetails.class.getSimpleName();
     private ImageView imageView;
@@ -152,7 +153,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
     private void setTrailers(){
 //        Log.e("setTrailers", trailers.size() + "");
-        trailerAdapter = new TrailerAdapter(trailers);
+        trailerAdapter = new TrailerAdapter(this, trailers);
         trailerView.setAdapter(trailerAdapter);
         textViewTrailersHeading.setText(getString(R.string.movie_trailers));
     }
@@ -257,5 +258,11 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader loader) {
         //Do nothing
+    }
+
+    @Override
+    public void onClick(int position) {
+        Log.e("OnClick", "Item was clicked");
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(this.getString(R.string.json_youtube) + trailers.get(position))));
     }
 }
