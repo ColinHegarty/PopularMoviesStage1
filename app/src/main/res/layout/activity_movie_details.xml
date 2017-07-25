@@ -68,9 +68,32 @@
                 android:id="@+id/title_review"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/rv_trailer"
+                android:textSize="22sp"
+                android:background="#9c9d9e"
+                />
+
+            <TextView
+                android:id="@+id/title_trailers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/synopsis"
                 android:textSize="22sp"
                 android:background="#9c9d9e"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_review"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_trailer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_trailers"
                 />
 
 
@@ -110,28 +133,7 @@
                  android:background="#9c9d9e"
                  />-->
 
-            <TextView
-                android:id="@+id/title_trailers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rv_review"
-                android:textSize="22sp"
-                android:background="#9c9d9e"
-                />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_review"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/title_review"
-                />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_trailer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/title_trailers"
-                />
 
  <!--           <TextView
                 android:id="@+id/title"

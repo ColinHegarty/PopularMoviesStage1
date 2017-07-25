@@ -3,6 +3,7 @@
     <string name="app_name">Popular Movies</string>
     <string name="welcome">Welcome to popular movies app, please wait while we retrieve the results!</string>
     <string name="empty"></string>
+    <string name="space"> </string>
     <string name="boolean_false">false</string>
     <string name="search">query</string>
 
@@ -37,6 +38,8 @@
     <string name="movie_synopsis">Synopsis:\n</string>
     <string name="movie_reviews">Reviews:</string>
     <string name="movie_trailers">Trailers:</string>
+    <string name="movie_trailer">Trailer</string>
+    <string name="movie_trailer_prefix">https://www.youtube.com/watch?v=</string>
 
 
     <!-- Network Utils Strings -->
@@ -56,6 +59,8 @@
     <string name="json_review">content</string>
     <string name="json_reviews">reviews</string>
     <string name="json_trailers">trailers</string>
+    <string name="json_youtube">youtube</string>
+    <string name="json_source">source</string>
 
     <!-- Strings for entry to bundle -->
     <string name="bundle_backdrop">BACKDROP_URL</string>

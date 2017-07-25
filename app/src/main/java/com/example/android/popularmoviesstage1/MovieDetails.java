@@ -35,11 +35,12 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     private TextView textViewTrailersHeading;
     private String errorMessage;
     private ArrayList<String> reviews;
+    private ArrayList<String> trailers;
     private RecyclerView reviewView;
     private RecyclerView trailerView;
     private ReviewAdapter reviewAdapter;
+    private TrailerAdapter trailerAdapter;
     private Bundle movie;
-    private Boolean isReviews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +50,9 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
         setUpDetails();
 //        setUpHeadings();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        reviewView = (RecyclerView)  findViewById(R.id.rv_review);
-        reviewView.setLayoutManager(layoutManager);
-        reviewView.setHasFixedSize(true);
 
-        trailerView = (RecyclerView) findViewById(R.id.rv_trailer);
-        trailerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        trailerView.setHasFixedSize(true);
+
+
 
         Intent intentThatStarted = getIntent();
 
@@ -74,8 +70,10 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
             textViewReviewHeading.setText(getString(R.string.movie_reviews));
             textViewTrailersHeading.setText(getString(R.string.movie_trailers));
         }
+
         getReviews(getString(R.string.json_reviews));
         getTrailers(getString(R.string.json_trailers));
+
     }
 
     private void setUpDetails(){
@@ -108,23 +106,14 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
     }*/
 
     private void getReviews(String query){
-        isReviews = true;
+        reviewView = (RecyclerView)  findViewById(R.id.rv_review);
+        reviewView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        reviewView.setHasFixedSize(true);
+
         Bundle bundle = new Bundle();
         bundle.putString(getString(R.string.search), query);
         bundle.putString(getString(R.string.json_author), getString(R.string.json_author));
         bundle.putString(getString(R.string.json_review), getString(R.string.json_review));
-        setUpAdapter(bundle);
-    }
-
-    private void getTrailers(String query){
-        Bundle bundle = new Bundle();
-        bundle.putString(getString(R.string.search), query);
-        bundle.putString(getString(R.string.json_trailers), getString(R.string.json_trailers));
-        setUpAdapter(bundle);
-    }
-
-    private void setUpAdapter(Bundle bundle){
-
 
         LoaderManager lm = getSupportLoaderManager();
         android.support.v4.content.Loader movieLoader = lm.getLoader(22);
@@ -136,66 +125,130 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         }
     }
 
+    private void getTrailers(String query){
+        trailerView = (RecyclerView) findViewById(R.id.rv_trailer);
+        trailerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        trailerView.setHasFixedSize(true);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(getString(R.string.search), query);
+        bundle.putString(getString(R.string.json_trailers), getString(R.string.json_trailers));
+
+        LoaderManager lm = getSupportLoaderManager();
+        android.support.v4.content.Loader<ArrayList<String>> movieLoader = lm.getLoader(23);
+
+        if (movieLoader == null) {
+            lm.initLoader(23, bundle, this);
+        } else {
+            lm.restartLoader(23, bundle, this);
+        }
+    }
+
     private void setReviews(){
         reviewAdapter = new ReviewAdapter(reviews);
         reviewView.setAdapter(reviewAdapter);
-        textViewReviewHeading.setText(getString(R.string.movie_reviews) + reviews.size());
-        isReviews = false;
+        textViewReviewHeading.setText(getString(R.string.movie_reviews));
     }
 
     private void setTrailers(){
-        reviewAdapter = new ReviewAdapter(reviews);
-        trailerView.setAdapter(reviewAdapter);
-        textViewTrailersHeading.setText(getString(R.string.movie_trailers) + reviews.size());
+//        Log.e("setTrailers", trailers.size() + "");
+        trailerAdapter = new TrailerAdapter(trailers);
+        trailerView.setAdapter(trailerAdapter);
+        textViewTrailersHeading.setText(getString(R.string.movie_trailers));
     }
 
     @Override
     public Loader onCreateLoader(int id, final Bundle args) {
-        return new AsyncTaskLoader<String>(this) {
-            @Override
-            protected void onStartLoading() {
-                if (args == null) {
-                    return;
-                }
-                forceLoad();
-            }
-
-            @Override
-            public String loadInBackground() {
-                String url =  getString(R.string.connection_string)+ movie.getString(getString(R.string.bundle_id)) +"/"
-                        + args.getString(
-                        getString(R.string.search)) + getString(R.string.api_connector) +
-                                getString(R.string.api_key) ;
-
-                Log.e("Connection String:",getString(R.string.connection_string)+ movie.getString(getString(R.string.bundle_id)) +"/"
-                        + args.getString(
-                        getString(R.string.search)) + getString(R.string.api_connector) +
-                        getString(R.string.api_key));
-
-                URL searchUrl = NetworkUtils.buildUrl(url);
-                String JSONResults = null;
-                try {
-                    JSONResults = NetworkUtils.getResponseFromHttpURL(searchUrl,
-                            getApplicationContext());
-                } catch (IOException e) {
-                    errorMessage = getString(R.string.json_error);
+        if(id == 22){
+            return new AsyncTaskLoader<ArrayList<String>>(this) {
+                @Override
+                protected void onStartLoading() {
+                    if (args == null) {
+                        return;
+                    }
+                    forceLoad();
                 }
 
-                if (JSONResults != null && !JSONResults.equals(getResources().getString(R.string.empty))) {
-                    reviews = JSONUtilities.jsonParserReviews(JSONResults, getApplicationContext(),
-                            args.getString(getString(R.string.json_author)),
-                            args.getString(getString(R.string.json_review)));
+                @Override
+                public ArrayList<String> loadInBackground() {
+                    String url =  getString(R.string.connection_string)+ movie.getString(getString(R.string.bundle_id)) +"/"
+                            + args.getString(
+                            getString(R.string.search)) + getString(R.string.api_connector) +
+                            getString(R.string.api_key) ;
+
+                    Log.e("Connection String:",getString(R.string.connection_string)+ movie.getString(getString(R.string.bundle_id)) +"/"
+                            + args.getString(
+                            getString(R.string.search)) + getString(R.string.api_connector) +
+                            getString(R.string.api_key));
+
+                    URL searchUrl = NetworkUtils.buildUrl(url);
+                    String JSONResults = null;
+                    try {
+                        JSONResults = NetworkUtils.getResponseFromHttpURL(searchUrl,
+                                getApplicationContext());
+                    } catch (IOException e) {
+                        errorMessage = getString(R.string.json_error);
+                    }
+
+                    if (JSONResults != null && !JSONResults.equals(getResources().getString(R.string.empty))) {
+                        reviews = JSONUtilities.jsonParserReviews(JSONResults, getApplicationContext(),
+                                args.getString(getString(R.string.json_author)),
+                                args.getString(getString(R.string.json_review)));
+                    }
+                    return reviews;
                 }
-                return getString(R.string.empty);
-            }
-        };
+            };
+        }else if(id == 23){
+            return new AsyncTaskLoader<ArrayList<String>>(this) {
+                @Override
+                protected void onStartLoading() {
+                    if (args == null) {
+                        return;
+                    }
+                    forceLoad();
+                }
+
+                @Override
+                public ArrayList<String> loadInBackground() {
+                    String url =  getString(R.string.connection_string)+ movie.getString(getString(R.string.bundle_id)) +"/"
+                            + args.getString(
+                            getString(R.string.search)) + getString(R.string.api_connector) +
+                            getString(R.string.api_key) ;
+
+                    Log.e("Connection String:",getString(R.string.connection_string)+ movie.getString(getString(R.string.bundle_id)) +"/"
+                            + args.getString(
+                            getString(R.string.search)) + getString(R.string.api_connector) +
+                            getString(R.string.api_key));
+
+                    URL searchUrl = NetworkUtils.buildUrl(url);
+                    String JSONResults = null;
+                    try {
+                        JSONResults = NetworkUtils.getResponseFromHttpURL(searchUrl,
+                                getApplicationContext());
+                    } catch (IOException e) {
+                        errorMessage = getString(R.string.json_error);
+                    }
+
+                    if (JSONResults != null && !JSONResults.equals(getResources().getString(R.string.empty))) {
+                        trailers = JSONUtilities.jsonParserTrailers(JSONResults, getApplicationContext(),
+                                args.getString(getString(R.string.json_trailers)));
+                    }
+//                    Log.e("trailers size", trailers.size()+"");
+                    return trailers;
+                }
+            };
+        }else {
+            errorMessage = getString(R.string.json_error);
+            return null;
+        }
+
     }
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {
-        if(isReviews){
+        if(loader.getId() == 22){
             setReviews();
-        }else{
+        }else if(loader.getId() == 23){
             setTrailers();
         }
 

@@ -44,8 +44,9 @@ public class JSONUtilities {
             //TODO-2 REQUIREMENT Move string literals to strings.xml or use constants as appropriate DONE
             for(int i=0; i<reviews.length(); i++){
                 Log.e("Inside For loop", ""+query + result);
-                String review = reviews.getJSONObject(i).getString(query) + "\n" +
-                        reviews.getJSONObject(i).getString(result);
+                String review = reviews.getJSONObject(i).getString(query) + "\n"+ "\n" +
+                        reviews.getJSONObject(i).getString(result)+ "\n"+ "\n";
+                Log.e("Review", review);
                 listOfReviews.add(review);
                 Log.e("listOfReviews Size:", ""+ listOfReviews.size());
             }
@@ -53,5 +54,27 @@ public class JSONUtilities {
             e.printStackTrace();
         }
         return listOfReviews;
+    }
+
+    public static ArrayList<String> jsonParserTrailers(String JSONResults, Context context, String query){
+        JSONObject results = null;
+        JSONArray trailers = null;
+        Log.e("JSON Results:", JSONResults);
+        ArrayList<String> listOfTrailers = new ArrayList<String>();
+        try{
+            results = new JSONObject(JSONResults);
+            trailers = results.getJSONArray(context.getString(R.string.json_youtube));
+            //TODO-2 REQUIREMENT Move string literals to strings.xml or use constants as appropriate DONE
+            for(int i=0; i<trailers.length(); i++){
+                Log.e("Inside For loop", ""+query );
+                String trailer = trailers.getJSONObject(i).getString(context.getString(R.string.json_source)) + "\n";
+                Log.e("Trailer", trailer);
+                listOfTrailers.add(trailer);
+                Log.e("listOfReviews Size:", ""+ listOfTrailers.size());
+            }
+        }catch(JSONException e) {
+            e.printStackTrace();
+        }
+        return listOfTrailers;
     }
 }
