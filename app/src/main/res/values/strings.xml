@@ -10,6 +10,7 @@
     <!-- Menu Item strings -->
     <string name="popular_menu">Popular</string>
     <string name="top_rated_menu">Top Rated</string>
+    <string name="favourite_menu">Favourite Movies</string>
 
     <!-- Toast Strings -->
     <string name="toast_popular">Searching Popular Movies</string>

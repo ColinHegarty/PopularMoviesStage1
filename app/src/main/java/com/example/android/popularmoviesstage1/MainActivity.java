@@ -2,6 +2,8 @@ package com.example.android.popularmoviesstage1;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -23,6 +25,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.popularmoviesstage1.data.FavouriteMovieContract;
+import com.example.android.popularmoviesstage1.data.MovieDBHelper;
+
 import java.io.IOException;
 import java.net.URL;
 
@@ -37,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
 
     private RecyclerView moviePosterView;
     private MovieAdapter movieAdapter;
+
+    private SQLiteDatabase favouriteDatabse;
 
     private String errorMessage;
 
@@ -62,6 +69,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
         Toast.makeText(this, getString(R.string.toast_popular),
                 Toast.LENGTH_SHORT).show();
 
+        MovieDBHelper movieDBHelper = new MovieDBHelper(this);
+        favouriteDatabse = movieDBHelper.getWritableDatabase();
+
         if(!(errorMessage == null)){
             defaultTextView.setText(errorMessage);
         }
@@ -72,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
 
     public void networkUtilsOperations(String query){
         //TODO-2 SUGGESTION Consider checking if you have a data connection before starting this whole process DONE
-        if(!isNetworkAvailable()){
+        if(!NetworkUtils.isNetworkAvailable(getApplicationContext())){
             errorMessage = getString(R.string.network_error);
             return;
         }else if(getString(R.string.api_key).equals(getString(R.string.empty))){
@@ -98,14 +108,19 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
         }
     }
 
-    //Method taken from Stackoverflow
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    private Cursor getAllFavouriteMovies(){
+        return favouriteDatabse.query(
+                FavouriteMovieContract.MovieEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                FavouriteMovieContract.MovieEntry.COLUMN_MOVIE_POSTER
+        );
     }
-    //TODO-3 AWESOME These small touches can make a big difference in UX and UR (User Rating)
+
+
 
     public void createRecyclerView(){
         movieAdapter = new MovieAdapter(listOfMovies, this);
@@ -134,6 +149,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
                                         Toast.LENGTH_SHORT).show();
                                 networkUtilsOperations(getString(R.string.top_rated_query));
                                 break;
+            case R.id.favourite_movies:
+                Toast.makeText(this, getResources().getString(R.string.favourite_menu),
+                        Toast.LENGTH_SHORT).show();
+                getAllFavouriteMovies();
+                break;
         }
         //TODO REQUIREMENT Follow the Java Coding & Styling guidelines. DONE
         return true;

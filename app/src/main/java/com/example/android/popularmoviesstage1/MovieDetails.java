@@ -262,7 +262,7 @@ public class MovieDetails extends AppCompatActivity implements TrailerAdapter.Tr
 
     @Override
     public void onClick(int position) {
-        Log.e("OnClick", "Item was clicked");
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(this.getString(R.string.json_youtube) + trailers.get(position))));
+        Log.e("OnClick", this.getString(R.string.json_youtube) + trailers.get(position));
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(this.getString(R.string.movie_trailer_prefix) + trailers.get(position))));
     }
 }
